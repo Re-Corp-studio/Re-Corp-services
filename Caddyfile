@@ -1,4 +1,10 @@
 recorp.adabru.de {
 	root * /usr/share/caddy
 	file_server
+
+	# Serve file listing for downloadable files in /build
+	handle_path /build/* {
+		root * /usr/share/caddy/build
+		file_server browse
+	}
 }

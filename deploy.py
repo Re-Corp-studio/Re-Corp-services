@@ -4,14 +4,14 @@ PyInfra deployment script to install and configure Caddy web server on Arch Linu
 """
 
 from pyinfra import config
-from pyinfra.operations import files, pacman, systemd
+from pyinfra.operations import files, pacman, server, systemd
 
 # Use sudo
 config.SUDO = True
 
 pacman.packages(
-    name="Install Caddy web server",
-    packages=["caddy"],
+    name="Install dependencies",
+    packages=["caddy", "docker", "zip"],
     update=True,
 )
 
@@ -38,4 +38,32 @@ systemd.service(
     running=True,
     enabled=True,
     restarted=True,
+)
+
+server.user(
+    name="Add github-actions user to docker group",
+    user="github-actions",
+    groups=["docker"],
+    append=True,
+)
+
+systemd.service(
+    name="Restart github-actions service",
+    service="github-actions.service",
+    restarted=True,
+)
+systemd.service(
+    name="Enable and start Docker service",
+    service="docker.service",
+    running=True,
+    enabled=True,
+)
+
+files.link(
+    name="Create symlink /usr/share/caddy/build -> /var/lib/github-actions/build",
+    path="/usr/share/caddy/build",
+    target="/var/lib/github-actions/build",
+    user="root",
+    group="root",
+    force=True,
 )
