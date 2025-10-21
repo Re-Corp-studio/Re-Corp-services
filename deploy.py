@@ -15,6 +15,15 @@ pacman.packages(
     update=True,
 )
 
+files.put(
+    name="Copy Caddyfile to /etc/caddy",
+    src="Caddyfile",
+    dest="/etc/caddy/Caddyfile",
+    user="root",
+    group="root",
+    mode="644",
+)
+
 files.sync(
     name="Copy www folder to /usr/share/caddy",
     src="www",
@@ -28,4 +37,5 @@ systemd.service(
     service="caddy.service",
     running=True,
     enabled=True,
+    restarted=True,
 )

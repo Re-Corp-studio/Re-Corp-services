@@ -1,4 +1,4 @@
-http:// {
+recorp.adabru.de {
 	root * /usr/share/caddy
 	file_server
 }
