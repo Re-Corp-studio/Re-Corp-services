@@ -11,7 +11,7 @@ config.SUDO = True
 
 pacman.packages(
     name="Install dependencies",
-    packages=["caddy", "docker", "zip"],
+    packages=["caddy", "docker", "zip", "rclone"],
     update=True,
 )
 
