@@ -1,0 +1,15 @@
+[Unit]
+Description=Google Doc Translation Service
+After=network.target
+
+[Service]
+Type=simple
+User=translate
+Group=translate
+WorkingDirectory=/opt/translate
+ExecStart=/opt/translate/venv/bin/python /opt/translate/main.py
+Restart=always
+RestartSec=60
+
+[Install]
+WantedBy=multi-user.target
